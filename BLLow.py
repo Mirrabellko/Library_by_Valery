@@ -16,13 +16,15 @@ def show_catalog(main_book_catalog):
         count_book = 0
         for i in main_book_catalog:
             count_book += 1
-            print(f"Number in list: {count_book}")
+            print('|' + "-" * 31 + '|')
+            print(f"| Number in list: {count_book} \t\t|")
+            print('|' + "-" * 31 + '|')
             print("\t id:", i[ID_INDEX])
             print("\t Name:", i[NAME_INDEX])
             print("\t Author:", i[AUTHOR_INDEX])
             print("\t Year:", i[YEAR_INDEX])
             print("\t Genre:", i[GENRE_INDEX])
-            print("--" * 15)
+            print()
     return
 
 
@@ -37,10 +39,12 @@ def autosave_book_format(book):
 def autosave_book(new_book):
     try:
         if os.path.exists(autosave_path):
+            #with open(autosave_path, "a") as autosave:
             autosave = open(autosave_path, "a")
             autosave.write(new_book)
             autosave.close()
         else:
+            #with open(autosave_path, "w") as autosave:
             autosave = open(autosave_path, "w")
             autosave.write(new_book)
             autosave.close()
@@ -55,14 +59,14 @@ def max_new_id(main_book_catalog):
     for i in main_book_catalog:
         if int(i[ID_INDEX]) > max_id:
             max_id = int(i[ID_INDEX])
-    return max_id
+    return max_id + 1
 
 
 '''Подпрограмма добавления новой книги'''
 def adding_new_book(main_book_catalog):
-    id = max_new_id(main_book_catalog) + 1
-    print(f"You are adding {id}th book")
-    print("--" * 15)
+    id = max_new_id(main_book_catalog)
+    print(f"| You are adding {id}th book\t|")
+    print('|' + "-"* 31 + '|')
     name = input("\t Name: ")
     author = input("\t Author: ")
     year = input("\t Year: ")
@@ -87,9 +91,10 @@ def autosave_after_delete(main_book_catalog):
     for i in main_book_catalog:
         i = autosave_book_format(i)
         save_catalog = save_catalog + i
-    file = open(autosave_path, "w")
-    file.write(save_catalog)
-    file.close()
+    with open(autosave_path, "w") as file:
+    #file = open(autosave_path, "w")
+        file.write(save_catalog)
+    #file.close()
     return
 
 
